@@ -19,17 +19,24 @@ class Node:
 		else:
 			self.data = data
 
+    # O(n) time | O(log(n)) space
 	def maxPathSum(self):
-		if self.left == None or self.right == None:
-			# print(self.data)
-			return (self.data, self.data)
-		LBS, LS = self.left.maxPathSum()
-		RBS, RS = self.right.maxPathSum()
+		_, maxSum = self.findMaxSum()
+		return maxSum
+
+	def findMaxSum(self):
+		if self.left == None:
+			LBS, LS = 0, 0
+		else:
+			LBS, LS = self.left.findMaxSum()
+		if self.right == None:
+			RBS, RS = 0, 0
+		else:
+			RBS, RS = self.right.findMaxSum()
 		MCSB = max(LBS, RBS)
 		MSB = max(MCSB + self.data, self.data)
 		MST = max(MSB, LBS + self.data + RBS)
 		RMPS = max(LS, RS, MST)
-		print(MSB, RMPS)
 		return (MSB, RMPS)
 		
 	def printTree(self):
